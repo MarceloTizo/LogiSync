@@ -3,11 +3,11 @@ const path = require('path');
 
 const DB_PATH = path.join(__dirname, 'LogiSync.db');
 
-let db = new sqlite3.Database(DB_PATH, (err) => {
+let db = new sqlite3.Database(DB_PATH, sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
-        console.error('Erro ao abrir o banco de dados', err.message);
+        console.error('Erro ao abrir o banco de dados: ', err.message);
     } else {
-        console.log('Conectado ao banco de dados SQLite.');
+        console.log('Conexão com o banco de dados estabelecida com sucesso.');
     }
 });
 

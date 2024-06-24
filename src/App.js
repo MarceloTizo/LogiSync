@@ -1,5 +1,5 @@
 const express = require('express');
-const userRoutes = require('./routes/userRoutes'); 
+const userRoutes = require('./routes/userRoutes');  // Certifique-se de que o caminho está correto
 
 const app = express();
 const PORT = process.env.PORT || 3000;
