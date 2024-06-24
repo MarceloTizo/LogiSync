@@ -17,8 +17,8 @@ const getAllUsers = () => {
 // Adicionar um novo usuário
 const addUser = (user) => {
     return new Promise((resolve, reject) => {
-        const sql = `INSERT INTO cadastrousuarios (NomeCompleto, Email, Senha, TipoUsuario, SituacaoUsuario, NumeroCelular) VALUES (?, ?, ?, ?, ?, ?)`;
-        db.run(sql, [user.NomeCompleto, user.Email, user.Senha, user.TipoUsuario, user.SituacaoUsuario, user.NumeroCelular], function(err) {
+        const sql = `INSERT INTO cadastrousuarios (NomeCompleto, CodigoTransportadora, Email, Senha, TipoUsuario, SituacaoUsuario, NumeroCelular) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+        db.run(sql, [user.NomeCompleto, user.CodigoTransportadora, user.Email, user.Senha, user.TipoUsuario, user.SituacaoUsuario, user.NumeroCelular], function(err) {
             if (err) {
                 reject(err);
             } else {
@@ -31,8 +31,8 @@ const addUser = (user) => {
 // Atualizar um usuário
 const updateUser = (user, id) => {
     return new Promise((resolve, reject) => {
-        const sql = `UPDATE cadastrousuarios SET NomeCompleto = ?, Email = ?, Senha = ?, TipoUsuario = ?, SituacaoUsuario = ?, NumeroCelular = ? WHERE CodigoUsuario = ?`;
-        db.run(sql, [user.NomeCompleto, user.Email, user.Senha, user.TipoUsuario, user.SituacaoUsuario, user.NumeroCelular, id], function(err) {
+        const sql = `UPDATE cadastrousuarios SET NomeCompleto = ?, CodigoTransportadora = ?, Email = ?, Senha = ?, TipoUsuario = ?, SituacaoUsuario = ?, NumeroCelular = ? WHERE CodigoUsuario = ?`;
+        db.run(sql, [user.NomeCompleto, user.CodigoTransportadora, user.Email, user.Senha, user.TipoUsuario, user.SituacaoUsuario, user.NumeroCelular, id], function(err) {
             if (err) {
                 reject(err);
             } else {
