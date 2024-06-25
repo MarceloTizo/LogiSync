@@ -46,7 +46,7 @@ const addUser = (user) => {
                     return;
                 }
         
-                updates.push('DataAlteracao = datetime(\'now\')');  // Adicionando a data de alteração
+                updates.push('DataAlteracao = datetime(\'now\')');  
         
                 sql += updates.join(', ') + ' WHERE CodigoUsuario = ?';
                 params.push(id);
