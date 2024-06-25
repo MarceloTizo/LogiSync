@@ -22,17 +22,24 @@ const adicionarUsuario = async (req, res) => {
 
 // Atualizar um usuário
 const atualizarUsuario = async (req, res) => {
+    const userId = req.params.id;
+    const changes = req.body;
+
+    console.log("Recebendo para atualizar:", changes); // Verifique os dados recebidos
+
     try {
-        const changes = await userModel.updateUser(req.body, req.params.id);
-        if (changes) {
-            res.send({ message: "Usuário atualizado com sucesso" });
+        const updated = await userModel.updateUser(changes, userId);
+        if (updated) {
+            res.send({ message: "Usuário atualizado com sucesso." });
         } else {
-            res.status(404).send({ message: "Usuário não encontrado" });
+            res.status(404).send({ message: "Usuário não encontrado." });
         }
     } catch (error) {
+        console.error("Erro na atualização:", error);
         res.status(500).send({ message: "Erro ao atualizar usuário: " + error.message });
     }
 };
+
 
 // Deletar um usuário
 const deletarUsuario = async (req, res) => {

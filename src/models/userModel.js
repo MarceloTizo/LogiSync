@@ -13,11 +13,10 @@ const getAllUsers = () => {
         });
     });
 };
-
-// Adicionar um novo usuário
+//novo usuario
 const addUser = (user) => {
     return new Promise((resolve, reject) => {
-        const sql = `INSERT INTO cadastrousuarios (NomeCompleto, CodigoTransportadora, Email, Senha, TipoUsuario, SituacaoUsuario, NumeroCelular) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+        const sql = `INSERT INTO cadastrousuarios (NomeCompleto, CodigoTransportadora, Email, Senha, TipoUsuario, SituacaoUsuario, NumeroCelular, DataGeracao) VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'))`;
         db.run(sql, [user.NomeCompleto, user.CodigoTransportadora, user.Email, user.Senha, user.TipoUsuario, user.SituacaoUsuario, user.NumeroCelular], function(err) {
             if (err) {
                 reject(err);
@@ -28,19 +27,38 @@ const addUser = (user) => {
     });
 };
 
-// Atualizar um usuário
-const updateUser = (user, id) => {
-    return new Promise((resolve, reject) => {
-        const sql = `UPDATE cadastrousuarios SET NomeCompleto = ?, CodigoTransportadora = ?, Email = ?, Senha = ?, TipoUsuario = ?, SituacaoUsuario = ?, NumeroCelular = ? WHERE CodigoUsuario = ?`;
-        db.run(sql, [user.NomeCompleto, user.CodigoTransportadora, user.Email, user.Senha, user.TipoUsuario, user.SituacaoUsuario, user.NumeroCelular, id], function(err) {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(this.changes);
-            }
-        });
-    });
-};
+        //atualizar usuario
+        const updateUser = (user, id) => {
+            return new Promise((resolve, reject) => {
+                let sql = 'UPDATE cadastrousuarios SET ';
+                let params = [];
+                let updates = [];
+        
+                Object.keys(user).forEach(key => {
+                    if (user[key] !== undefined && key !== 'DataGeracao' && key !== 'DataAlteracao') {
+                        updates.push(`${key} = ?`);
+                        params.push(user[key]);
+                    }
+                });
+        
+                if (updates.length === 0) {
+                    reject(new Error("No fields to update"));
+                    return;
+                }
+        
+                updates.push('DataAlteracao = datetime(\'now\')');  // Adicionando a data de alteração
+        
+                sql += updates.join(', ') + ' WHERE CodigoUsuario = ?';
+                params.push(id);
+        
+                db.run(sql, params, function(err) {
+                    if (err) reject(err);
+                    else resolve(this.changes);
+                });
+            });
+        };
+        
+
 
 // Deletar um usuário
 const deleteUser = (id) => {
